@@ -19,8 +19,6 @@ ALLOWED_EXTENSIONS = {'pdf'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Entity extraction logic here (unchanged from your initial implementation)
-
 # Route for displaying the upload form and processing uploads
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():

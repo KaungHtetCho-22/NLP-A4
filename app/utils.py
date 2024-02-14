@@ -9,8 +9,9 @@ ruler = nlp.add_pipe("entity_ruler")
 nlp.pipe_names
 
 # patterns
-skill_path = "./data/jz_skill_patterns.jsonl"
+skill_path       = "./data/jz_skill_patterns.jsonl"
 ruler.from_disk(skill_path)
+
 
 email_pattern = [{'label': 'EMAIL', 
                   'pattern': [{'TEXT': {'REGEX': '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'}}]}]
@@ -26,13 +27,54 @@ web_patterns = [
     {"label": "WEBSITE", "pattern": [{"TEXT": {"REGEX": "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"}}]}]
 ruler.add_patterns(web_patterns)
 
-work_experience_patterns = [
-    {"label": "JOB_TITLE", "pattern": [{"TEXT": {"REGEX": "(?i)\b(manager|engineer|developer|director)\b"}}]},
-    {"label": "COMPANY_NAME", "pattern": [{"TEXT": {"REGEX": "(?i)\b(Inc\.?|Ltd\.?|LLC|Corporation)\b"}}]},
-    {"label": "DATE", "pattern": [{"TEXT": {"REGEX": "\b(19|20)\d{2}\b"}}, {"TEXT": {"REGEX": "to"}}, {"TEXT": {"REGEX": "\b(19|20)\d{2}\b"}}]},
-    {"label": "JOB_RESPONSIBILITY", "pattern": [{"TEXT": {"REGEX": "(?i)\b(responsible for|duties included|managed)\b"}}]}]
+# work_patterns = [
+#     # General pattern for job titles - looking for noun phrases that could be job titles
+#     {"label": "JOB_TITLE", "pattern": [{"POS": "PROPN"}, {"POS": "NOUN", "OP": "?"}]},
+#     # General pattern for companies - looking for proper nouns that could indicate company names
+#     {"label": "COMPANY", "pattern": [{"POS": "PROPN"}, {"POS": "PROPN", "OP": "?"}]},
+#     # To catch patterns like 'Company Name, Job Title, Years'
+#     {"label": "WORK_EXPERIENCE", "pattern": [{"POS": "PROPN"}, {"POS": "PROPN", "OP": "?"}, {"POS": "PUNCT"}, {"POS": "PROPN"}, {"POS": "NOUN", "OP": "?"}, {"POS": "PUNCT"}, {"SHAPE": "dddd"}]},]
+# ruler.add_patterns(work_patterns)
 
-ruler.add_patterns(work_experience_patterns)
+# "(\\+?\\d{1,3})?[-\\s.]?(\\d{1,4})?[-\\s.]?(\\d{2,4})[-\\s.]?(\\d{2,4})[-\\s.]?(\\d{2,4})"
+
+# date_pattern = [
+#     {"label": "DATE", "pattern": [
+#         {"LOWER": {"IN": ["january", "february", "march", "april", "may", "june", "july", 
+#                           "august", "september", "october", "november", "december"]}},
+#         {"SHAPE": "dddd"},
+#         {"LOWER": "-", "OP": "?"},
+#         {"LOWER": {"IN": ["-", "–"]}, "OP": "?"},
+#         {"LOWER": {"IN": ["present", "january", "february", "march", "april", "may", "june", 
+#                           "july", "august", "september", "october", "november", "december"]}, "OP": "?"},
+#         {"SHAPE": "dddd", "OP": "?"}
+#     ]}
+# ]
+
+# mobile_pattern = [
+#     # {"label": "MOBILE", "pattern": [{"TEXT": {"REGEX": "(\+?\d{1,3})?[-\s.]?(\d{1,4})?[-\s.]?(\d{2,4})[-\s.]?(\d{2,4})[-\s.]?(\d{2,4})"}}]},
+#     {"label": "MOBILE", "pattern": [{"TEXT": {"REGEX": "\+?(\d{7,15})"}}]}]
+# ruler.add_patterns(mobile_pattern)
+
+work_pattern = [
+    # Pattern for Job Title
+    {"label": "JOB_TITLE", "pattern": [{"POS": "PROPN"}, {"POS": "PROPN", "OP": "?"}]},
+    
+    # Pattern for Organization
+    {"label": "COMPANY", "pattern": [{"POS": "PROPN"}, {"POS": "PROPN", "OP": "?"}, {"POS": "PROPN", "OP": "?"}]}
+    
+    # Pattern for Location
+    # {"label": "LOCATION", "pattern": [{"POS": "PROPN"}, {"POS": "PROPN", "OP": "?"}]},
+    
+    # Pattern for Dates
+    # {"label": "DATE", "pattern": [{"SHAPE": "ddd"}, {"SHAPE": "dddd"}]},
+    # {"label": "DATE", "pattern": [{"SHAPE": "dd"}, {"ORTH": "-"}, {"SHAPE": "dddd"}]}
+    
+    # Job Descriptions are more complex and may need more sophisticated patterns or machine learning approaches.
+]
+ruler.add_patterns(work_pattern)
+
+
 
 
 # preprocessing
@@ -51,49 +93,58 @@ def preprocessing(sentence):
     return " ".join(clean_tokens)
 
 from PyPDF2 import PdfReader
+
 def pdfReader(cv_path):
     reader = PdfReader(cv_path)
     text = ""
     for page in reader.pages:
-        text += page.extract_text() + " "  # Concatenate all pages
+        text += page.extract_text() + " "  
     text = preprocessing(text)
     doc = nlp(text)
-
-    skills = []
-    education = []  # Corrected variable name
-    email = []
-    website = []
-    job_title = []
-    company_name = []
-    date = []
-    job_responsibility = []
+    
+    name            = []
+    skills          = []
+    education       = []  
+    email           = []
+    website         = []
+    org             = []
+    # mobile           = []
+    job_title       = []
+    company         = []
+    # work_experience = []
 
     for ent in doc.ents:
         if ent.label_ == 'SKILL':
             skills.append(ent.text)
         elif ent.label_ == 'EDUCATION':
-            education.append(ent.text)  # Ensure consistency in variable naming
+            education.append(ent.text)  
         elif ent.label_ == 'EMAIL':
             email.append(ent.text)
         elif ent.label_ == 'WEBSITE':
             website.append(ent.text)
+        elif ent.label_ == 'ORG':
+            org.append(ent.text)
+        elif ent.label_ == 'PERSON':
+            name.append(ent.text)
+        # elif ent.label_ == 'MOBILE':
+        #     mobile.append(ent.text)
         elif ent.label_ == 'JOB_TITLE':
             job_title.append(ent.text)
-        elif ent.label_ == 'COMPANY_NAME':
-            company_name.append(ent.text)
-        elif ent.label_ == 'DATE':
-            date.append(ent.text)
-        elif ent.label_ == 'JOB_RESPONSIBILITY':
-            job_responsibility.append(ent.text)
+        elif ent.label_ == 'COMPANY':
+            company.append(ent.text)
+        # elif ent.label_ == 'WORK_EXPERIENCE':
+        #     work_experience.append(ent.text)
 
-    dict = {'skills': list(set(skills)), 
-            'education_status': list(set(education)), 
-            'email': list(set(email)), 
+    dict = {'email': list(set(email)),
+            'name': list(set(name)),
+            # 'mobile': list(set(mobile)),
             'website': list(set(website)),
+            'education_status': list(set(education)), 
+            'org':list(set(org)),
+            'skills': list(set(skills)),
             'job_title': list(set(job_title)),
-            'company_name': list(set(company_name)),
-            'date': list(set(date)),
-            'job_responsibility': list(set(job_responsibility)),
+            'company': list(set(company))
+            # 'work_experience': list(set(work_experience)),
             }
 
     return dict

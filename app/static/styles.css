@@ -47,13 +47,32 @@ table {
     background-color: #FFF; /* White background for the table */
     border-collapse: collapse; /* Ensures borders are collapsed into a single border */
     width: 80%; /* Adjust based on your preference */
-    box-shadow: none; /* Removing shadow for a flat design */
+    box-shadow: none;
+    width: 100%; /* Set table width to full container width */
+    border-spacing: 0; /* Removing shadow for a flat design */
+}
+
+th, td {
+    /* ... existing properties ... */
+    border: 1px solid #333; /* Adds border to table cells */
+    vertical-align: top; /* Aligns content to the top of the cell */
+}
+
+ul {
+    list-style-position: inside; /* Positions the bullet inside the list item */
+    padding-left: 0; /* Removes default padding */
+    margin: 0; /* Removes default margin */
+}
+
+li {
+    list-style-type: disc; /* Ensures bullet points are displayed */
 }
 
 th, td {
     text-align: left;
-    padding: 12px; /* More padding for readability */
-    border-bottom: 1px solid #DDD; /* Light grey border for separation, flat design avoids heavy use of borders */
+    padding: 12px;
+    border-bottom: 1px solid #DDD;
+    width: 25%; /* Set to 25% to fit four columns equally across the table */
 }
 
 th {

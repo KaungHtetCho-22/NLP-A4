@@ -15,22 +15,23 @@
     {% if extracted_data %}
     <h3>Extraction Results</h3>
     <table>
-        {% for key, values in extracted_data.items() %}
         <tr>
-            <th colspan="4">{{ key.replace('_', ' ').title() }}</th>
+            {% for category in extracted_data.keys() %}
+            <th>{{ category.title() }}</th>
+            {% endfor %}
         </tr>
         <tr>
-            <td colspan="4">
+            {% for key, values in extracted_data.items() %}
+            <td>
                 <ul>
                     {% for value in values %}
                     <li>{{ value }}</li>
                     {% endfor %}
                 </ul>
             </td>
+            {% endfor %}
         </tr>
-        {% endfor %}
     </table>
-    
     {% endif %}
 
     <!-- {% if csv_filename %}

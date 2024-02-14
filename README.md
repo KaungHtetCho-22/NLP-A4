@@ -11,6 +11,9 @@ NLP assignment from AIT
 ## Task1
 ### Implementation
 
+- Extended resumer parser with another five patterns (skills, education, email, website and contact number).
+- 
+
 
 
 ## Task2

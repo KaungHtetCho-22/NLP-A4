@@ -39,5 +39,7 @@ def upload_file():
 # Ensure the UPLOAD_FOLDER exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
+port_number = 8000
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=port_number)

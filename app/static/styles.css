@@ -1,0 +1,71 @@
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Vertically center the content in the viewport */
+    min-height: 50vh; /* Minimum height of 100% of the viewport height */
+    padding: 40px;
+    background-color: #817d7d; /* Light grey background for a clean look */
+    color: #333; /* Dark grey color for text */
+}
+
+h2, h3 {
+    color: #444; /* Slightly lighter text for headings */
+}
+
+form {
+    background-color: #FFF; /* Pure white for the form background */
+    padding: 20px;
+    border: none; /* Removing border for a flat look */
+    border-radius: 0; /* Flat design typically avoids rounded corners */
+    box-shadow: none; /* No shadows for a truly flat design */
+    width: 300px; /* Setting a fixed width */
+}
+
+input[type="file"], input[type="submit"] {
+    background-color: #2d86e5; /* Bright blue for buttons */
+    color: #FFF; /* White text for contrast */
+    border: none; /* No borders for a flat button appearance */
+    padding: 10px 15px;
+    margin-top: 10px; /* Space between the file input and submit button */
+    width: 100%; /* Full width buttons */
+    box-sizing: border-box; /* Ensures padding does not add to the width */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+input[type="submit"] {
+    background-color: #2d86e5; /* Slightly darker blue for the submit button */
+}
+
+input[type="submit"]:hover, input[type="file"]:hover {
+    opacity: 0.9; /* Slight opacity change on hover */
+}
+
+table {
+    background-color: #FFF; /* White background for the table */
+    border-collapse: collapse; /* Ensures borders are collapsed into a single border */
+    width: 80%; /* Adjust based on your preference */
+    box-shadow: none; /* Removing shadow for a flat design */
+}
+
+th, td {
+    text-align: left;
+    padding: 12px; /* More padding for readability */
+    border-bottom: 1px solid #DDD; /* Light grey border for separation, flat design avoids heavy use of borders */
+}
+
+th {
+    background-color: #2d86e5; /* Bright blue for header background */
+    color: #FFF; /* White text for header */
+    border-bottom: 2px solid #DDD; /* Slightly thicker bottom border for a subtle distinction */
+}
+
+tr:nth-child(even) {
+    background-color: #F7F7F7; /* Very light grey for even rows */
+}
+
+tr:hover {
+    background-color: #E2E2E2; /* Slightly darker grey for row hover effect */
+}

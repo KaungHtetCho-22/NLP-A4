@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload and Extract PDF</title>
+    <link rel="stylesheet" href="static/styles.css"> <!-- Ensure this path matches the location of your CSS file -->
+</head>
+<body>
+    <h2>Upload a PDF to Extract Information</h2>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".pdf" required>
+        <input type="submit" value="Upload">
+    </form>
+
+    {% if extracted_data %}
+    <h3>Extraction Results</h3>
+    <table>
+        {% for key, values in extracted_data.items() %}
+        <tr>
+            <th colspan="4">{{ key.replace('_', ' ').title() }}</th>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <ul>
+                    {% for value in values %}
+                    <li>{{ value }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    {% endif %}
+
+    <!-- {% if csv_filename %}
+    <a href="{{ url_for('download_csv', csv_filename=csv_filename) }}">Download CSV</a>
+    {% endif %} -->
+
+</body>
+</html>

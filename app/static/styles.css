@@ -7,7 +7,8 @@ body {
     justify-content: center; /* Vertically center the content in the viewport */
     min-height: 50vh; /* Minimum height of 100% of the viewport height */
     padding: 40px;
-    background-color: #817d7d; /* Light grey background for a clean look */
+    /* Replace the solid background color with a gradient */
+    background-image: linear-gradient(to right, #757f9a, #d7dde8); /* Example gradient from dark to light */
     color: #333; /* Dark grey color for text */
 }
 

@@ -41,7 +41,6 @@ def download_cv_data():
     # Assume pdfReader has been called and 'extracted_data.csv' exists
     return send_file('extracted_data.csv', as_attachment=True)
 
-
 # Ensure the UPLOAD_FOLDER exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 

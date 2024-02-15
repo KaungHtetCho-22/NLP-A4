@@ -49,13 +49,13 @@ mobile_pattern = [
     {
         "label": "MOBILE",
         "pattern": [
-            {"TEXT": {"REGEX": r"\+?\d{1,3}"}},  # Country code, which is optional
-            {"ORTH": "-", "OP": "?"},            # Optional hyphen
-            {"TEXT": {"REGEX": r"\d{2,3}"}},     # Area code
-            {"ORTH": "-", "OP": "?"},            # Optional hyphen
-            {"TEXT": {"REGEX": r"\d{3,4}"}},     # First part of the number
-            {"ORTH": "-", "OP": "?"},            # Optional hyphen
-            {"TEXT": {"REGEX": r"\d{4}"}}        # Second part of the number
+            {"TEXT": {"REGEX": r"\+?\d{1,3}"}},  
+            {"ORTH": "-", "OP": "?"},           
+            {"TEXT": {"REGEX": r"\d{2,3}"}},    
+            {"ORTH": "-", "OP": "?"},           
+            {"TEXT": {"REGEX": r"\d{3,4}"}},     
+            {"ORTH": "-", "OP": "?"},            
+            {"TEXT": {"REGEX": r"\d{4}"}}        
         ]
     }
 ]
@@ -77,8 +77,8 @@ def pdfReader(cv_path):
     website         = []
     occupation      = []
     mobile          = []
+    # work_experience = []
 
-    
     for ent in doc.ents:
         if ent.label_ == 'SKILL':
             skills.append(ent.text)
@@ -92,7 +92,8 @@ def pdfReader(cv_path):
             occupation.append(ent.text)
         elif ent.label_ == 'MOBILE':
             mobile.append(ent.text)
-
+        # elif ent.label_ == 'ORG':
+        #     work_experience.append(ent.text)
     
     dict = {'mobile': list(set(mobile)),
             'email': list(set(email)),
@@ -100,6 +101,7 @@ def pdfReader(cv_path):
             'education': list(set(education)), 
             'skills': list(set(skills)),
             'occupation': list(set(occupation))
+            # 'work_experience': list(set(work_experience))
             }
     
     with open('extracted_data.csv', mode='w', newline='') as file:

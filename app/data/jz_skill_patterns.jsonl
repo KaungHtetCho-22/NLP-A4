@@ -1,3 +1,5 @@
+{"label":"SKILL","pattern":[{"TEXT":"HuggingFace"}]}
+{"label":"SKILL","pattern":[{"TEXT":"PowerBI"}]}
 {"label":"SKILL","pattern":[{"TEXT":".NET"}]}
 {"label":"SKILL","pattern":[{"LOWER":""},{"LOWER":"net"}]}
 {"label":"SKILL","pattern":[{"LOWER":"1password"}]}

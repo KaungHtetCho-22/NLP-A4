@@ -32,11 +32,8 @@
             {% endfor %}
         </tr>
     </table>
+    <!-- Add a button or link for downloading the CSV file -->
+    <a href="{{ url_for('download_cv_data') }}" class="btn">Download Extracted Data as CSV</a>
     {% endif %}
-
-    <!-- {% if csv_filename %}
-    <a href="{{ url_for('download_csv', csv_filename=csv_filename) }}">Download CSV</a>
-    {% endif %} -->
-
 </body>
 </html>

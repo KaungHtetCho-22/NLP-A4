@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, send_file
 from werkzeug.utils import secure_filename
 import os
 import spacy
@@ -35,6 +35,12 @@ def upload_file():
             flash('Invalid file type. Please upload a PDF file.')
             return redirect(url_for('upload_file'))
     return render_template('upload.html')
+
+@app.route('/download-cv-data')
+def download_cv_data():
+    # Assume pdfReader has been called and 'extracted_data.csv' exists
+    return send_file('extracted_data.csv', as_attachment=True)
+
 
 # Ensure the UPLOAD_FOLDER exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)

@@ -49,13 +49,18 @@ table {
     width: 80%; /* Adjust based on your preference */
     box-shadow: none;
     width: 100%; /* Set table width to full container width */
-    border-spacing: 0; /* Removing shadow for a flat design */
+    border-spacing: 0; 
+    table-layout: fixed; /* Removing shadow for a flat design */
 }
 
 th, td {
     /* ... existing properties ... */
     border: 1px solid #333; /* Adds border to table cells */
-    vertical-align: top; /* Aligns content to the top of the cell */
+    vertical-align: top;
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #DDD;
+    width: calc(100% / 4); /* Aligns content to the top of the cell */
 }
 
 ul {
